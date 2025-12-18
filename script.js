@@ -138,7 +138,7 @@ const upgrades = [
     funcao: 'Cada clique gera o dobro de linhas.',
     icon: 'certificado.webp',
     // icon: 'placeholder.webp',
-    efeito: () => boost *= 1.5,
+    efeito: () => boost *= 2,
   },
   {
     nome: "Calculadora científica",
