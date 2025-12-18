@@ -1,112 +1,118 @@
-# INSTALAÇÃO E RODAR O SERVIDOR
+# Dev Clicker - Versão Web Pura
 
-## SETUP
+Uma versão 100% web do Dev Clicker, sem dependência de Django ou qualquer servidor backend.
 
-### Criação e ativação do ambiente
-Executar no terminal na pasta do projeto
-```
-python3 -m venv .venv
+## Características
 
-source .venv/bin/activate # ativar no linux ou mac
-.\.venv\Scripts\activate  # ativer no windows
-```
+✅ **Aplicação Web Pura** - Apenas HTML, CSS e JavaScript
+✅ **Armazenamento Local** - Todos os dados salvos no localStorage do navegador
+✅ **Sem Backend** - Roda completamente no navegador do cliente
+✅ **Interface Mantida** - Toda a interface visual permanece igual
+✅ **Persistent Saves** - Seu progresso é salvo automaticamente
 
-### INSTALAÇÃO DAS BIBLIOTECAS
-Executar no terminal na pasta do projeto
-```
-pip install -r requirements.txt
-```
+## Como Executar
 
-## INICIALIZAÇÃO DO SERVIDOR
+### Opção 1: Usar o Servidor Python Incluído
 
-### Criação do banco de dados e carregar as configurações
-
-Executar no terminal, com o ambiente inicializado e na pasta em que se encontra o manage.py
-```
-# Executar os dois em sequência, um vai verificar as migrações e outros irá fazer as migrações
-python manage.py makemigrations
-python manage.py migrate
+```bash
+python server.py
 ```
 
-### Inicializar server
-Executar no terminal na pasta em que se encontra o manage.py, com o ativado
+Depois acesse `http://localhost:8000` no seu navegador.
 
-```
-python manage.py runserver
-```
+### Opção 2: Usar qualquer outro servidor HTTP
 
-Em outro, com a mesma configuração
-```
-# Esse aqui é um facilitador, em que toda vez que se atualiza algo ele atualiza automaticamente a tela
-python manage.py livereload
+Se você tiver `Node.js`:
+```bash
+npx http-server
 ```
 
-## CRIAR O ARQUIVO .ENV
-No ambiente de produção, há dados que precisam ser escondidas, e o render requesita que tenha esses dados.
-Eles são as variávies de ambiente, que estão definidas no **.env**, e, para ambientes de teste, precisam dela para que não ocorra nenhum erro na hora de enviar para produção.
-
-
-# DICAS DE DESENVOLVIMENTO
-
-## BACKEND
-
-Qualquer modificação nas configurações de servidor, rota etc., rodar no terminal com o ambiente ativo e na pasta de manage.py:
-```
-python manage.py makemigrations
-python manage.py migrate
+Se você tiver `PHP`:
+```bash
+php -S localhost:8000
 ```
 
-## FRONTEND
+### Opção 3: Servir Diretamente no Navegador
 
-Os arquivos estáticos são "localizados" na pasta /static/ para o servidor. Por conta disso, passar os arquivos da maneira convencional ("./pasta/arquivo.png") não funciona, precisando fazer algumas coisas.
+Abra o arquivo `templates/index.html` diretamente no seu navegador.
 
-** NO PROJETO, O STATIC FOI DEFINIDO NA RAIZ (/static/)**
-
-### HTML
-No html, no seu início, colocar:
-```
-{ % load static % }
-```
-
-E ao chamar os arquivos:
+## Estrutura do Projeto
 
 ```
-<img src="{ % static "pasta/imagem.png" % }" />
-<script src="{ % staic "script.js" % }"></script.js>
+Dev-Clicker/
+├── templates/
+│   └── index.html           # Arquivo HTML principal (sem dependências Django)
+├── static/
+│   ├── style.css            # Estilos
+│   ├── js/
+│   │   └── script.js        # Lógica do jogo (refatorada)
+│   └── assets/
+│       ├── icons/           # Ícones dos itens
+│       ├── sounds/          # Efeitos sonoros
+│       └── music/           # Músicas de fundo
+├── server.py                # Servidor Python para executar localmente
+└── README.md                # Este arquivo
 ```
 
-### HTML SEM O {% LOAD STATIC %} (NÃO RECOMENDÁVEL)
-Pode-se usar:
+## Dados Salvos
+
+Todos os dados da sua partida são salvos no **localStorage** do navegador:
+
+- `playerName` - Nome da sua empresa
+- `playerPoints` - Pontos/Linhas de código
+- `upgrades` - Lista de upgrades comprados
+- `estruturas` - Lista de estruturas compradas
+- `stats` - Estatísticas gerais
+
+## Removido da Versão Original
+
+- ❌ Integração com Django (WebSocket, CSRF Token)
+- ❌ Banco de dados
+- ❌ Leaderboard global
+- ❌ Autenticação de usuário
+- ❌ Template tags Django
+
+## Adicionado Nesta Versão
+
+- ✅ Armazenamento completamente local (localStorage)
+- ✅ Modal de entrada de nome simplificado
+- ✅ Servidor Python básico para facilitar a execução
+- ✅ Compatibilidade com qualquer servidor HTTP estático
+
+## Como Funciona
+
+1. **Carregamento**: Ao abrir a página, o jogo carrega seus dados salvos do localStorage
+2. **Modal**: Se for a primeira vez, você será solicitado a digitar o nome da sua empresa
+3. **Jogo**: Clique no teclado para gerar linhas de código e compre upgrades/estruturas
+4. **Salvamento**: Seus dados são salvos automaticamente a cada 5 segundos
+
+## Resetar Progresso
+
+Para resetar seu progresso completamente, abra o console do navegador (F12) e execute:
+
+```javascript
+reset()
 ```
-<img src="/static/assets/placeholder.png" />
-<img src="/static/placeholder.png"/>
+
+Ou limpe manualmente o localStorage:
+
+```javascript
+localStorage.clear()
+location.reload()
 ```
 
-### JAVASCRIPT
+## Requisitos
 
-Aqui, de maneira mais rápida e sem ajuste técnico, pode-se:
+- Um navegador moderno com suporte a:
+  - HTML5
+  - CSS3
+  - ES6+ JavaScript
+  - localStorage
 
-```
+## Licença
 
-imagem.innerHTML = `<img src"/static/pasta/imagem.png"/ >`
-imagem.innerHTML = `<img src"/static/imagem.png"/ >`
+MIT
 
-```
+## Créditos
 
-Sem modificar o html, pode-se usar direto:
-
-```
-./pasta/arquivo
-./arquivo
-```
-** Só não pode usar o dois pontos, caso o arquivo esteja na raiz, pois irá para o endereço do servidor, não encontrando nenhum arquivo estático **
-
-### CSS
-Se o código não adicionar nenhum endereço no html, pode-se
-
-```
-./pasta/arquivo
-./arquivo
-```
-
-
+Refatoração para web pura mantendo a interface e lógica visual original.

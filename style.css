@@ -115,12 +115,6 @@ main {
     transition: box-shadow .5s ease;
 }
 
-.loading-screen .table {
-    top: 60%;
-    height: 40vh;
-    background: radial-gradient(ellipse at bottom, var(--c3) 0%, var(--c6) 100%);
-}
-
 body.matrix .table {
     overflow: hidden;
     opacity: .8;
@@ -1497,56 +1491,6 @@ body.matrix .button-header.active, body.evil .button-header.active { background-
 }
 
 /**/
-.loading-screen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle, var(--c3) 0%, var(--c6) 100%);
-
-
-    z-index: 999999999;
-}
-
-.loading-screen.invisible {
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-}
-
-
-.loading-txt {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3em;
-    position: absolute;
-}
-
-/* HTML: <div class="loader"></div> */
-.loading-txt:before {
-    display: inline-block;
-    width: fit-content;
-}
-
-.loading-screen:not(.invisible) .loading-txt:before { animation: l25 1s infinite; }
-
-.loading-screen .loading-txt:before {
-    content:"Loading..."
-}
-
-@keyframes l25{
-  0%,12.5% {transform: translate(10px,0)}
-  13%,25%  {transform: translate(4px,-4px)}
-  26%,37.5%{transform: translate(2px,8px)}
-  38%,50%  {transform: translate(12px,-6px)}
-  51%,62.5%{transform: translate(0,12px)}
-  63%,75%  {transform: translate(-8px,-4px)}
-  76%,86.5%{transform: translate(-12px,6px)}
-  87%,100% {transform: translate(6px,0)}
-}
-
 /* SCROLL SHADOW */
 
 
