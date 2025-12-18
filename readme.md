@@ -12,7 +12,7 @@ Um idle/clicker game para devs – gere linhas de código, compre upgrades e evo
 
 ## Visão Geral
 
-O Dev Clicker é um jogo single‑player que roda 100% no navegador. Você começa clicando (ou tocando) para gerar linhas de código, desbloqueia estruturas que produzem automaticamente (LpS) e ativa bônus de café com efeitos especiais. O progresso é salvo automaticamente no seu dispositivo.
+O Dev Clicker é um jogo single‑player que roda 100% no navegador, inspirado no tão querido e aclamado Cookie Clicker. Você começa clicando (ou tocando) para gerar linhas de código, desbloqueia estruturas que produzem automaticamente (LpS) e ativa bônus de café com efeitos especiais. O progresso é salvo automaticamente no seu dispositivo.
 
 ## Destaques
 
