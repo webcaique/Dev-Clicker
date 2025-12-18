@@ -1,118 +1,102 @@
-# Dev Clicker - Versão Web Pura
+<div align="center">
 
-Uma versão 100% web do Dev Clicker, sem dependência de Django ou qualquer servidor backend.
+# Dev Clicker
 
-## Características
+<p>
+	<img src="assets/pc.ico" width="96" height="96" alt="Dev Clicker icon" />
+</p>
 
-✅ **Aplicação Web Pura** - Apenas HTML, CSS e JavaScript
-✅ **Armazenamento Local** - Todos os dados salvos no localStorage do navegador
-✅ **Sem Backend** - Roda completamente no navegador do cliente
-✅ **Interface Mantida** - Toda a interface visual permanece igual
-✅ **Persistent Saves** - Seu progresso é salvo automaticamente
+Um idle/clicker game para devs – gere linhas de código, compre upgrades e evolua sua “empresa”! 💻☕
 
-## Como Executar
+</div>
 
-### Opção 1: Usar o Servidor Python Incluído
+## Visão Geral
+
+O Dev Clicker é um jogo single‑player que roda 100% no navegador. Você começa clicando (ou tocando) para gerar linhas de código, desbloqueia estruturas que produzem automaticamente (LpS) e ativa bônus de café com efeitos especiais. O progresso é salvo automaticamente no seu dispositivo.
+
+## Destaques
+
+- Simples de rodar: apenas HTML, CSS e JavaScript puro (sem backend)
+- Salvamento automático via localStorage (persistência entre sessões)
+- Upgrades, estruturas e bônus (inclui cafés com efeitos instantâneos e temporários)
+- UI com tooltips ricas (desktop e mobile) e animações
+- Efeitos sonoros e música com controle de reprodução
+
+## Como experimentar rapidamente
+
+Escolha uma das opções abaixo.
+
+1) Servidor Python embutido no sistema (recomendado)
 
 ```bash
-python server.py
+python -m http.server 8000
 ```
 
-Depois acesse `http://localhost:8000` no seu navegador.
+Depois abra http://localhost:8000 no navegador e acesse o arquivo `index.html` na raiz do projeto.
 
-### Opção 2: Usar qualquer outro servidor HTTP
+2) Node.js (http-server)
 
-Se você tiver `Node.js`:
 ```bash
-npx http-server
+npx http-server -p 8000
 ```
 
-Se você tiver `PHP`:
-```bash
-php -S localhost:8000
+3) VS Code – Live Server (extensão)
+
+- Abra a pasta do projeto e clique em “Go Live” para servir a raiz.
+
+4) Modo direto (menos recomendado)
+
+- Abra o arquivo `index.html` no navegador. Em alguns ambientes, recursos como áudio podem se comportar melhor com um servidor local (opções 1–3).
+
+## Controles e mecânicas
+
+- Clique/toque no teclado para gerar linhas de código (cliques podem entrar em “combo”)
+- Compre estruturas para produzir LpS automaticamente
+- Os bônus de café aparecem aleatoriamente – clique rápido para ativar!
+- Tooltips mostram custos, efeitos e estatísticas de cada item
+
+## Salvamento e reset
+
+Os dados ficam no localStorage do navegador:
+
+- `playerName`: nome da empresa
+- `playerPoints`: total de linhas
+- `upgrades`: upgrades comprados
+- `estruturas`: estruturas compradas
+- `stats`: estatísticas de jogo
+
+Para resetar, use o console do navegador (F12):
+
+```js
+localStorage.clear();
+location.reload();
 ```
 
-### Opção 3: Servir Diretamente no Navegador
-
-Abra o arquivo `templates/index.html` diretamente no seu navegador.
-
-## Estrutura do Projeto
+## Estrutura do projeto (essencial)
 
 ```
 Dev-Clicker/
-├── templates/
-│   └── index.html           # Arquivo HTML principal (sem dependências Django)
-├── static/
-│   ├── style.css            # Estilos
-│   ├── js/
-│   │   └── script.js        # Lógica do jogo (refatorada)
-│   └── assets/
-│       ├── icons/           # Ícones dos itens
-│       ├── sounds/          # Efeitos sonoros
-│       └── music/           # Músicas de fundo
-├── server.py                # Servidor Python para executar localmente
-└── README.md                # Este arquivo
+├─ index.html            # Página principal (raiz do projeto)
+├─ style.css             # Estilos do jogo
+├─ script.js             # Lógica principal do jogo
+└─ assets
 ```
 
-## Dados Salvos
+## Roadmap (ideias)
 
-Todos os dados da sua partida são salvos no **localStorage** do navegador:
+- Melhorar acessibilidade (teclado e leitores de tela)
+- Mais tipos de bônus e eventos aleatórios
+- Sistema de achievements/medalhas
+- Tela de “New Game+” e balance refinado de custos
 
-- `playerName` - Nome da sua empresa
-- `playerPoints` - Pontos/Linhas de código
-- `upgrades` - Lista de upgrades comprados
-- `estruturas` - Lista de estruturas compradas
-- `stats` - Estatísticas gerais
+## Contribuindo
 
-## Removido da Versão Original
+1. Faça um fork do repositório
+2. Crie um branch: `git checkout -b feature/sua-feature`
+3. Commit: `git commit -m "feat: descreva sua mudança"`
+4. Push: `git push origin feature/sua-feature`
+5. Abra um Pull Request 🧑‍💻
 
-- ❌ Integração com Django (WebSocket, CSRF Token)
-- ❌ Banco de dados
-- ❌ Leaderboard global
-- ❌ Autenticação de usuário
-- ❌ Template tags Django
+## Agradecimentos
 
-## Adicionado Nesta Versão
-
-- ✅ Armazenamento completamente local (localStorage)
-- ✅ Modal de entrada de nome simplificado
-- ✅ Servidor Python básico para facilitar a execução
-- ✅ Compatibilidade com qualquer servidor HTTP estático
-
-## Como Funciona
-
-1. **Carregamento**: Ao abrir a página, o jogo carrega seus dados salvos do localStorage
-2. **Modal**: Se for a primeira vez, você será solicitado a digitar o nome da sua empresa
-3. **Jogo**: Clique no teclado para gerar linhas de código e compre upgrades/estruturas
-4. **Salvamento**: Seus dados são salvos automaticamente a cada 5 segundos
-
-## Resetar Progresso
-
-Para resetar seu progresso completamente, abra o console do navegador (F12) e execute:
-
-```javascript
-reset()
-```
-
-Ou limpe manualmente o localStorage:
-
-```javascript
-localStorage.clear()
-location.reload()
-```
-
-## Requisitos
-
-- Um navegador moderno com suporte a:
-  - HTML5
-  - CSS3
-  - ES6+ JavaScript
-  - localStorage
-
-## Licença
-
-MIT
-
-## Créditos
-
-Refatoração para web pura mantendo a interface e lógica visual original.
+Obrigado a quem jogar, reportar bugs ou sugerir melhorias. Cafézinho ajuda a compilar ideias! ☕
