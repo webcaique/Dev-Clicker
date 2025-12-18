@@ -985,6 +985,19 @@ button.addEventListener('click', (e) => {
 
 })
 
+document.addEventListener('keydown', (e) => {
+  if (e.repeat || e.key == 'return') return
+
+  const padding = 10
+  const rect = button.getBoundingClientRect()
+  const coords = {
+    x: rect.left + randomBetween(padding, rect.width - padding),
+    y: rect.top + randomBetween(padding, rect.height - padding),
+  }
+  handleClick(coords)
+  triggerAnimation()
+})
+
 button.addEventListener('touchstart', (e) => {
   const currentTouch = [...e.touches].at(-1)
   const coords = {
