@@ -76,6 +76,10 @@ location.reload();
 
 ```
 Dev-Clicker/
+├─ backend
+|  ├─ api.js 			 # Rotas e lógicas
+|  ├─ connectbd.js		 # Conexão com o banco de dados
+|  └─ query.js 			 # Queries do banco de dados
 ├─ index.html            # Página principal (raiz do projeto)
 ├─ style.css             # Estilos do jogo
 ├─ script.js             # Lógica principal do jogo
@@ -96,6 +100,10 @@ Dev-Clicker/
 3. Commit: `git commit -m "feat: descreva sua mudança"`
 4. Push: `git push origin feature/sua-feature`
 5. Abra um Pull Request 🧑‍💻
+
+## Contribuintes
+- [Caique Costa](https://github.com/ccostafrias) - Front-end;
+- [Caique Sidrão](https://github.com/webcaique) - Back-end.
 
 ## Agradecimentos
 
