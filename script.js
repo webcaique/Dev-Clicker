@@ -1,3 +1,114 @@
+// Consumo da API do learderboard
+
+const headers = () => new Headers({
+  "Content-Type": "application/json",
+  "Accept": "application/json",
+});
+
+const request = (method, content) => {
+  const option = {
+    method,
+    headers: headers(),
+    mode: "cors"
+  };
+
+  if(method !== "GET") option.body = JSON.stringify(content);
+
+  return option;
+};
+
+// FUNÇÃO DE COLETAR O PLAYER, MAS ACESSANDO O BANCO DE DADOS
+// const getPlayer = async (id) => {
+//   return await 
+//   fetch(
+//     `http://localhost:8000/player/${id}`, 
+//     request("GET"))
+//     .then(res => {
+//       if(!res.ok) throw new Error(`GET PLAYER ERROR: ${res.status}`);
+//       return res.json();
+//     })
+//     .then(res => {
+//       console.log(res);
+//     })
+//     .catch(err => {
+//       console.log("ERRO MESSAGEM:\n",err.message);
+//     });
+    
+// }
+//
+
+const postPlayer = async (name) => {
+  const body = {
+      name: name,
+      points: 0
+    };
+
+  return await
+  fetch(
+    `http://localhost:8000/init-player/`,
+    request("POST", body)
+  )
+  .then( res => {
+    if(!res.ok) throw new Error(`ERRO INESPERADO POST PLAYER: ${res.status}`);
+    return res.json();
+  })
+  .catch( err => console.error("ERROR:\n", err));
+}
+
+const updatePoints = async (points) => {
+  const body = {
+    id: localStorage.getItem("uid"),
+    points,
+  }
+
+  return await
+  fetch(
+    `http://localhost:8000/patch-points/`,
+    request("PATCH", body)
+  )
+  .then( res => {
+    if(!res.ok) throw new Error(`ERRO INESPERADO PATCH POINTS: ${res.status}`);
+    return res.json();
+  })
+  .catch( err => {
+    console.error("ERROR\n:", err);
+  });
+}
+
+
+const getLeaderboard = async () => {
+  const data = await fetch(
+    `http://localhost:8000/get-all-players/`,
+    request("GET")
+  )
+  .then( res => {
+    if(!res.ok) throw new Error(`ERROR LEADERBOARD: ${res.status}`);
+    return res.json();
+  })
+  .catch( err => console.error("ERROR GET LEADERBOARD", err));
+
+  const higher = (a, b) => b.points - a.points;
+
+  const players = data.rows;
+  players.sort(higher);
+
+  return players.slice(0,9);
+}
+
+const deletePlayer = async (id) => {
+  const data = await fetch(
+    `http://localhost:8000/player-delete/`,
+    request("DELETE", {id})
+  )
+  .then( res => {
+    if(!res.ok) throw new Error(`ERROR LEADERBOARD: ${res.status}`);
+    return res.json();
+  })
+  .catch( err => console.error("ERROR DELETE PLAYER", err));
+
+  return data;
+}
+
 // Upgrades "place holder" só para o código funcionar
 const upgrades = [
   {
@@ -767,10 +878,13 @@ setScrollShadows(itemsModal.querySelector('.item-upgrades--container'))
 // FIM DOS STATS
 
 // Pega o nome do player (LOCAL)
-function setPlayerName(name) {
+async function setPlayerName(name) {
   company = name
   companyName.textContent = company
-  localStorage.setItem('playerName', name)
+  const response = await postPlayer(name);
+  localStorage.setItem('playerName', name);
+  localStorage.setItem('uid', response.uid);
+  
 }
 
 // Carrega os dados do player do localStorage (PURA WEB)
@@ -2248,13 +2362,16 @@ function endGame() {
   coffeeInterval = null
 }
 
-function reset(linesToo = true, cookiesToo = true) {
+async function reset(linesToo = true, cookiesToo = true) {
   debug = true
-  localStorage.removeItem('upgrades')
-  localStorage.removeItem('estruturas')
-  localStorage.removeItem('stats')
-  localStorage.removeItem('playerName')
-  localStorage.removeItem('playerPoints')
+  localStorage.removeItem('upgrades');
+  localStorage.removeItem('estruturas');
+  localStorage.removeItem('stats');
+  localStorage.removeItem('playerName');
+  localStorage.removeItem('playerPoints');
+  await deletePlayer(localStorage.getItem("uid"));
+  localStorage.removeItem('uid');
+
   if (linesToo) {
     refresh(-pontos)
     atualizarPontos(pontos)
@@ -2286,3 +2403,8 @@ preloadPromise
   .catch((err) => {
     console.error('Erro em uma das operações:', err);
   });
+
+setInterval(()=>{
+  updatePoints(pontos);
+  getLeaderboard();
+}, 2500);
