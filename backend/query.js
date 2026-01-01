@@ -16,7 +16,7 @@ const createPlayer = async (id, name) => {
     INSERT INTO players (id, name, points)
     VALUES ($1, $2, $3)
     `;
-    const values = [id, name, 0];
+    const values = [id, name, "0"];
 
     const res = await pool.query(query, values)
     .catch(error => {
@@ -42,7 +42,7 @@ const patchPoints = async (id, points) => {
         SET points = $1
         WHERE id = $2`;
     
-    const values = [points, id];
+    const values = [points.toString(), id];
 
     const res = await pool
         .query(query, values)
