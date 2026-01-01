@@ -1,4 +1,5 @@
 // Consumo da API do learderboard
+const path = "https://dev-clicker-production.up.railway.app";
 
 const headers = () => new Headers({
   "Content-Type": "application/json",
@@ -21,7 +22,7 @@ const request = (method, content) => {
 // const getPlayer = async (id) => {
 //   return await 
 //   fetch(
-//     `http://localhost:8000/player/${id}`, 
+//     `${path}/player/${id}`, 
 //     request("GET"))
 //     .then(res => {
 //       if(!res.ok) throw new Error(`GET PLAYER ERROR: ${res.status}`);
@@ -45,7 +46,7 @@ const postPlayer = async (name) => {
 
   return await
   fetch(
-    `http://localhost:8000/init-player/`,
+    `${path}/init-player/`,
     request("POST", body)
   )
   .then( res => {
@@ -63,7 +64,7 @@ const updatePoints = async (points) => {
 
   return await
   fetch(
-    `http://localhost:8000/patch-points/`,
+    `${path}/patch-points/`,
     request("PATCH", body)
   )
   .then( res => {
@@ -78,7 +79,7 @@ const updatePoints = async (points) => {
 
 const getLeaderboard = async () => {
   const data = await fetch(
-    `http://localhost:8000/get-all-players/`,
+    `${path}/get-all-players/`,
     request("GET")
   )
   .then( res => {
@@ -97,7 +98,7 @@ const getLeaderboard = async () => {
 
 const deletePlayer = async (id) => {
   const data = await fetch(
-    `http://localhost:8000/player-delete/`,
+    `${path}/player-delete/`,
     request("DELETE", {id})
   )
   .then( res => {
