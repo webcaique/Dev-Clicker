@@ -88,7 +88,7 @@ const getLeaderboard = async () => {
   })
   .catch( err => console.error("ERROR GET LEADERBOARD", err));
 
-  const higher = (a, b) => b.points - a.points;
+  const higher = (a, b) => Number(b.points) - Number(a.points);
 
   const players = data.rows;
   players.sort(higher);
