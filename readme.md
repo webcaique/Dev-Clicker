@@ -24,6 +24,7 @@ O Dev Clicker é um jogo single‑player que roda 100% no navegador, inspirado n
 
 ## Como experimentar rapidamente
 
+### Frontend
 Escolha uma das opções abaixo.
 
 1) Servidor Python embutido no sistema (recomendado)
@@ -47,6 +48,58 @@ npx http-server -p 8000
 4) Modo direto (menos recomendado)
 
 - Abra o arquivo `index.html` no navegador. Em alguns ambientes, recursos como áudio podem se comportar melhor com um servidor local (opções 1–3).
+
+### Backend
+1) Precisa-se de um servidor Postgresql (colocar passo a passo para criação do servidor localmente);
+
+2) Criar um banco de dados (recomenda-se colocar devclicker):
+
+```
+CREATE DATABASE devclicker;
+```
+Conectar no banco de dados (o USE DATABASE do mysql):
+```
+\c devcliker;
+```
+
+3) Criar a tabela players:
+```
+CREATE TABLE players (
+	id TEXT PRIMARY KEY,
+	name TXT NOT NULL,
+	points NOT NULL,
+);
+```
+
+4) Criar o arquivo .env na pasta backend:
+```
+DB_HOST=localhost || qualquer-host
+DB_PORT=5432 || porta-do-banco-de-dados
+DB_USER=postgres || usuario-que-acesse-o-banco-de-dados
+DB_PASSWORD=senha-do-usuario-de-DB_USER
+DB_NAME=devclicker || nome-do-banco-de-dado
+PORT=8080 || porta-do-servidor
+```
+5) Instalar a biblioteca:
+```
+cd backend/
+```
+e
+```
+npm i 
+```
+ou
+```
+npm i express dotenv pg cors nodemon
+```
+6) Colocar o servido no ar:
+```
+node api.js
+```
+ou
+```
+npx nodemon api.js
+```
 
 ## Controles e mecânicas
 
