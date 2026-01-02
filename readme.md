@@ -21,70 +21,40 @@ O Dev Clicker é um jogo single‑player que roda 100% no navegador, inspirado n
 - Upgrades, estruturas e bônus (inclui cafés com efeitos instantâneos e temporários)
 - UI com tooltips ricas (desktop e mobile) e animações
 - Efeitos sonoros e música com controle de reprodução
+- Backend externo para lidar com o leaderboard
 
-## Como experimentar rapidamente
 
-Escolha uma das opções abaixo.
 
-1) Servidor Python embutido no sistema (recomendado)
-
-```bash
-python -m http.server 8000
-```
-
-Depois abra http://localhost:8000 no navegador e acesse o arquivo `index.html` na raiz do projeto.
-
-2) Node.js (http-server)
-
-```bash
-npx http-server -p 8000
-```
-
-3) VS Code – Live Server (extensão)
-
-- Abra a pasta do projeto e clique em “Go Live” para servir a raiz.
-
-4) Modo direto (menos recomendado)
-
-- Abra o arquivo `index.html` no navegador. Em alguns ambientes, recursos como áudio podem se comportar melhor com um servidor local (opções 1–3).
-
-## Controles e mecânicas
-
-- Clique/toque no teclado para gerar linhas de código (cliques podem entrar em “combo”)
-- Compre estruturas para produzir LpS automaticamente
-- Os bônus de café aparecem aleatoriamente – clique rápido para ativar!
-- Tooltips mostram custos, efeitos e estatísticas de cada item
-
-## Salvamento e reset
-
-Os dados ficam no localStorage do navegador:
-
-- `playerName`: nome da empresa
-- `playerPoints`: total de linhas
-- `upgrades`: upgrades comprados
-- `estruturas`: estruturas compradas
-- `stats`: estatísticas de jogo
-
-Para resetar, use o console do navegador (F12):
-
-```js
-localStorage.clear();
-location.reload();
-```
-
-## Estrutura do projeto (essencial)
+## Hierarquia de arquivos e pastas no backend (essencial)
 
 ```
 Dev-Clicker/
-├─ backend
-|  ├─ api.js 			 # Rotas e lógicas
-|  ├─ connectbd.js		 # Conexão com o banco de dados
-|  └─ query.js 			 # Queries do banco de dados
-├─ index.html            # Página principal (raiz do projeto)
-├─ style.css             # Estilos do jogo
-├─ script.js             # Lógica principal do jogo
-└─ assets
+├─ api.js           # Roteamento das requisições
+├─ connectbd.js     # Conexão com o banco de dados
+├─ query.js			# Querys para modificar o banco de dados
+└─ package.json
 ```
+
+## Funcionamento do backend
+### api.js
+Reponsável pelos roteamentos, em que há:
+- /get-all-players/ => responsável por recuperar todos as linhas salva no banco de dados;
+- /init-player/ => responsável por inicializar o jogador no banco de dados, criando um id aleatório para ele;
+- /patch-points/ => atualiza os pontos no banco;
+- /player/:id => coleta um player específico;
+- /player-delete/ => usado para testes, deletando o player do banco de dados.
+
+### query.js
+Armazena funções responsáveis por modificações no banco de dados.
+- testConnection() => teste de conexão;
+- createPlayer => insere um novo player no banco de dados;
+- getAll => recupera todos os jogadores no banco de dados;
+- patchPoints => responsável por atualizar os pontos;
+- getPlayer => recupera um player específico pelo id;
+- deletePlayer => uma função que deleta o player do banco.
+
+### connectbd.js
+Reponsável unicamente por conectar ao banco de dados, podendo ser um local (comentado), ou um externo.
 
 ## Roadmap (ideias)
 
