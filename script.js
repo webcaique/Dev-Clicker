@@ -1,5 +1,5 @@
 // Consumo da API do learderboard
-const path = "https://dev-clicker.up.railway.app";
+const path = "https://dev-clicker.railway.internal";
 
 const headers = () => new Headers({
   "Content-Type": "application/json",
