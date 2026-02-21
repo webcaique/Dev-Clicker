@@ -45,10 +45,6 @@ coverage.xml
 *.py,cover
 .cache
 
-# Node.js (se usar frontend com Node)
-node_modules/
-package-lock.json
-
 # Build
 build/
 dist/
