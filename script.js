@@ -1,5 +1,5 @@
 // Consumo da API do learderboard
-const path = "https://dev-clicker.up.railway.app";
+const path = "https://dev-clicker-backend.up.railway.app";
 
 const headers = () => new Headers({
   "Content-Type": "application/json",
@@ -44,23 +44,25 @@ const postPlayer = async (name) => {
       points: 0
     };
 
-  return await
+  const response = await
   fetch(
     `${path}/init-player/`,
     request("POST", body)
-  )
-  .then( res => {
+  ).then( res => {
     if(!res.ok) throw new Error(`ERRO INESPERADO POST PLAYER: ${res.status}`);
     return res.json();
   })
   .catch( err => console.error("ERROR:\n", err));
+  return response;
 }
 
 const updatePoints = async (points) => {
   const body = {
-    id: localStorage.getItem("uid"),
+    id: localStorage.getItem("id"),
     points,
   }
+
+  console.log(body);  
 
   return await
   fetch(
@@ -88,9 +90,9 @@ const getLeaderboard = async () => {
   })
   .catch( err => console.error("ERROR GET LEADERBOARD", err));
 
-  const higher = (a, b) => Number(b.points) - Number(a.points);
+  const higher = (a, b) => Number(b.points) - Number(a.points);  
 
-  const players = data.rows;
+  const players = data;
   players.sort(higher);
 
   return players.slice(0,9);
@@ -884,7 +886,7 @@ async function setPlayerName(name) {
   companyName.textContent = company
   const response = await postPlayer(name);
   localStorage.setItem('playerName', name);
-  localStorage.setItem('uid', response.uid);
+  localStorage.setItem('id', response.id);
   
 }
 
@@ -2370,8 +2372,8 @@ async function reset(linesToo = true, cookiesToo = true) {
   localStorage.removeItem('stats');
   localStorage.removeItem('playerName');
   localStorage.removeItem('playerPoints');
-  await deletePlayer(localStorage.getItem("uid"));
-  localStorage.removeItem('uid');
+  await deletePlayer(localStorage.getItem("id"));
+  localStorage.removeItem('id');
 
   if (linesToo) {
     refresh(-pontos)
