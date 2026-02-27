@@ -78,40 +78,6 @@ const updatePoints = async (points) => {
   });
 }
 
-
-const getLeaderboard = async () => {
-  const data = await fetch(
-    `${path}/get-all-players/`,
-    request("GET")
-  )
-  .then( res => {
-    if(!res.ok) throw new Error(`ERROR LEADERBOARD: ${res.status}`);
-    return res.json();
-  })
-  .catch( err => console.error("ERROR GET LEADERBOARD", err));
-
-  const higher = (a, b) => Number(b.points) - Number(a.points);  
-
-  const players = data;
-  players.sort(higher);
-
-  return players.slice(0,9);
-}
-
-const deletePlayer = async (id) => {
-  const data = await fetch(
-    `${path}/player-delete/`,
-    request("DELETE", {id})
-  )
-  .then( res => {
-    if(!res.ok) throw new Error(`ERROR LEADERBOARD: ${res.status}`);
-    return res.json();
-  })
-  .catch( err => console.error("ERROR DELETE PLAYER", err));
-
-  return data;
-}
-
 // Upgrades "place holder" só para o código funcionar
 const upgrades = [
   {
